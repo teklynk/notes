@@ -1,0 +1,15 @@
+{% include 'includes/header.html' %}
+    <div class="sticky-button">
+        <a href="/create"><button class="btn" type="button">Create</button></a>
+    </div>
+    <div class="note-view">
+        <h1 class="mt-6">All Notes</h1>
+        <ul class="note-list mt-5">
+            {% for note in notes %}
+                <li><a href="{{ url_for('view_note', note_id=note[0]) }}" class="truncated">{{ note[1] }}</a><br><small>{{ note[2] }}</small></li>
+            {% else %}
+                <li>No notes found.</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% include 'includes/footer.html' %}

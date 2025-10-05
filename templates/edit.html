@@ -1,0 +1,15 @@
+{% include 'includes/header.html' %}
+    <form method="post" id="note-form">
+        {{ form.csrf_token }}
+        <div class="sticky-button">
+            <a href="/{{ note_id }}"><button class="btn cancel" type="button">Cancel</button></a>
+            <button class="btn" type="submit" form="note-form" formtarget="_self">Save</button>
+        </div>
+        <div>
+            <input placeholder="Name" type="text" spellcheck="false" autocorrect="off" autocapitalize="off" class="note-input mt-6" name="note_name" id="note_name" maxlength="255" value="{{ name }}" required autofocus/>
+            <textarea placeholder="Content" spellcheck="false" autocorrect="off" autocapitalize="off"
+                class="note-textarea mt-5" name="note_content" id="note_content" rows="10" cols="80"
+                tabindex="0" required>{{ content }}</textarea>
+        </div>
+    </form>
+{% include 'includes/footer.html' %}

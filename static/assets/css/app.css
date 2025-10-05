@@ -1,0 +1,185 @@
+body {
+  background: #1f232b;
+  padding: 10px;
+  margin: 0px;
+  color: #839496;
+  font-family: monospace;
+  font-size: 1rem;
+}
+
+footer {
+  a {
+    &:link {
+      color: #839496;
+      text-decoration: none;
+    }
+
+    &:visited {
+      color: #839496;
+      text-decoration: none;
+    }
+
+    &:hover {
+      color: #839496;
+      text-decoration: underline;
+    }
+  }
+}
+
+.note-input {
+  font-family: monospace;
+  font-size: 2em;
+  font-weight: bold;
+  background: transparent;
+  border: 0px;
+  color: #839496;
+  padding: 0px;
+  width: 100%;
+  outline: none;
+}
+
+.note-textarea {
+  font-family: monospace;
+  font-size: 1em;
+  background: transparent;
+  border: 0px;
+  color: #eee;
+  padding: 0px;
+  width: 100%;
+  height: 100%;
+  outline: none;
+  min-height: 75vh;
+  resize: none;
+}
+
+div.note-view {
+  margin-top: 50px;
+  min-height: 75vh;
+}
+
+ul.note-list {
+  display: block;
+  list-style-type: none;
+  margin-bottom: 1rem;
+  padding-left: 0;
+
+  li {
+    display: list-item;
+    margin-bottom: 1rem;
+  }
+
+  li a {
+    text-decoration: underline;
+    color: #99f;
+    cursor: pointer;
+  }
+}
+
+.truncated {
+  display: inline-block;
+  overflow: hidden;
+  max-width: 100%;
+  text-overflow: ellipsis;
+  width: fit-content;
+  white-space: nowrap;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+.mt-0 {
+  margin-top: 0 !important;
+}
+
+.mt-1 {
+  margin-top: 0.25rem !important;
+}
+
+.mt-2 {
+  margin-top: 0.5rem !important;
+}
+
+.mt-3 {
+  margin-top: 1rem !important;
+}
+
+.mt-4 {
+  margin-top: 1.5rem !important;
+}
+
+.mt-5 {
+  margin-top: 3rem !important;
+}
+
+.mt-6 {
+  margin-top: 4rem !important;
+}
+
+.mb-0 {
+  margin-bottom: 0 !important;
+}
+
+.mb-1 {
+  margin-bottom: 0.25rem !important;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem !important;
+}
+
+.mb-3 {
+  margin-bottom: 1rem !important;
+}
+
+.mb-4 {
+  margin-bottom: 1.5rem !important;
+}
+
+.mb-5 {
+  margin-bottom: 3rem !important;
+}
+
+.mb-auto {
+  margin-bottom: auto !important;
+}
+
+.inline-block {
+  display: inline-block !important;
+}
+
+.btn {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border: none;
+  background-color: #474747;
+  color: #fff;
+  cursor: pointer;
+}
+
+.btn.delete {
+  background-color: #770421;
+}
+
+.sticky-button {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.hljs {
+  background: transparent !important;
+}
+
+td.hljs-ln-numbers {
+  padding-right: 20px !important;
+}
+
+code.hljs {
+  padding: 0 !important;
+}
+
+.hljs-copy-wrapper {
+  margin-right: 8px !important;
+}
