@@ -195,7 +195,7 @@ def edit(note_id):
 @limiter.limit("60 per minute")
 def delete_note(note_id):
     db = get_db()
-    db.execute('DELETE FROM notes WHERE id = ?', (note_id,))
+    db.execute('DELETE FROM notes WHERE id = ?', (note_id,)).fetchone()
     db.commit()
     return redirect(url_for('list_notes'))
 

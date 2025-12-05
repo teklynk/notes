@@ -144,6 +144,10 @@ ul.note-list {
   margin-bottom: auto !important;
 }
 
+.p-0 {
+  padding: 0 !important;
+}
+
 .inline-block {
   display: inline-block !important;
 }
@@ -182,4 +186,9 @@ code.hljs {
 
 .hljs-copy-wrapper {
   margin-right: 8px !important;
+}
+
+.transparent {
+  background-color: transparent !important;
+  border-color: transparent !important;
 }
