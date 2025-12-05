@@ -1,6 +1,7 @@
 {% include 'includes/header.html' %}
     <div class="sticky-button">
         <a href="/"><button class="btn" type="button">Notes</button></a>
+        <a href="/raw/{{ note_id }}"><button class="btn" type="button">Raw</button></a>
         <a href="/create"><button class="btn" type="button">Create</button></a>
         <a href="/edit/{{ note_id }}"><button class="btn" type="button">Edit</button></a>
         <form id="delete-form" class="inline-block" action="{{ url_for('delete_note', note_id=note_id) }}" method="post" onsubmit="return confirm('Are you sure you want to delete this note?');">
