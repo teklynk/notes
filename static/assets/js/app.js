@@ -10,4 +10,26 @@ document.addEventListener('DOMContentLoaded', () => {
         textarea.addEventListener('input', () => autoGrowTextarea(textarea));
         autoGrowTextarea(textarea);
     }
+
+    const toggle = document.getElementById('theme-toggle');
+    const body = document.body;
+
+    if (!localStorage.getItem('theme')) {
+        toggle.innerText = '🌣';
+        localStorage.setItem('theme', 'dark-mode');
+    }
+
+    body.classList.add(localStorage.getItem('theme'));
+
+    toggle.addEventListener('click', () => {
+        if (body.classList.contains('dark-mode')) {
+            body.classList.replace('dark-mode', 'light-mode');
+            toggle.innerText = '☽';
+            localStorage.setItem('theme', 'light-mode');
+        } else {
+            body.classList.replace('light-mode', 'dark-mode');
+            toggle.innerText = '🌣';
+            localStorage.setItem('theme', 'dark-mode');
+        }
+    });
 });

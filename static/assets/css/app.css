@@ -1,10 +1,18 @@
 body {
-  background: #1f232b;
   padding: 10px;
   margin: 0px;
-  color: #839496;
   font-family: monospace;
   font-size: 1rem;
+}
+
+.dark-mode {
+  background: #1f232b;
+  color: #839496;
+}
+
+.light-mode {
+  background: #fff;
+  color: #000;
 }
 
 footer {
@@ -164,6 +172,14 @@ ul.note-list {
 
 .btn.delete {
   background-color: #770421;
+}
+
+button.theme-btn {
+  text-align: center;
+  vertical-align: middle;
+  padding: 4px;
+  height: 32px;
+  width: 32px;
 }
 
 .sticky-button {
