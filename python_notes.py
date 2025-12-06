@@ -200,7 +200,7 @@ def delete_note(note_id):
     return redirect(url_for('list_notes'))
 
 @app.route('/<note_id>')
-@requires_auth # This decorator is not needed as it's handled by the view function
+@requires_auth
 def view_note(note_id):
     db = get_db()
     note = db.execute('SELECT name, content FROM notes WHERE id = ?', (note_id,)).fetchone()
@@ -210,7 +210,13 @@ def view_note(note_id):
             # Decrypt the content
             markdown_content = fernet.decrypt(note['content']).decode()
             # Convert Markdown to HTML
-            html_content = markdown.markdown(markdown_content, extensions=['fenced_code'])
+            extensions = [
+                'pymdownx.superfences',
+                'pymdownx.tasklist',
+                'pymdownx.tilde',
+                'pymdownx.details',
+            ]
+            html_content = markdown.markdown(markdown_content, extensions=extensions)
         except InvalidToken:
             return redirect(url_for('list_notes'))
         return render_template('view.html', name=name, content=html_content, note_id=note_id)
