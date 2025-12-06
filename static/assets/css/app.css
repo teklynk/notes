@@ -5,13 +5,17 @@ body {
   font-size: 1rem;
 }
 
-.dark-mode {
+body.dark-mode {
   background: #1f232b;
   color: #839496;
 }
 
-.light-mode {
+body.light-mode {
   background: #fff;
+  color: #000;
+}
+
+body.light-mode .note-textarea, body.light-mode .hljs {
   color: #000;
 }
 
@@ -175,9 +179,9 @@ ul.note-list {
 }
 
 button.theme-btn {
-  text-align: center;
-  vertical-align: middle;
-  padding: 4px;
+  font-size: 1rem;
+  padding: 0;
+  margin: 0;
   height: 32px;
   width: 32px;
 }
