@@ -183,6 +183,8 @@ td.hljs-ln-numbers {
 
 code.hljs {
   padding: 0 !important;
+  word-wrap: break-word;
+  text-wrap: auto;
 }
 
 .hljs-copy-wrapper {
