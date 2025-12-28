@@ -154,7 +154,7 @@ def create():
         name = form.note_name.data
         content = form.note_content.data
         encrypted_content = fernet.encrypt(content.encode())
-        note_id = str(uuid.uuid4())[:8]
+        note_id = str(uuid.uuid4())[:32]
         db = get_db()
         db.execute('INSERT INTO notes (id, name, content) VALUES (?, ?, ?)', (note_id, name, encrypted_content))
         db.commit()
