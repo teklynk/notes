@@ -8,6 +8,7 @@ A simple, self-hosted, encrypted notes application built with Flask.
 - **CRUD Operations:** Create, view, edit, and delete notes through a clean web interface.
 - **Markdown Support:** Notes are rendered from Markdown to HTML, with syntax highlighting for code blocks.
 - **Raw View:** View the raw, unformatted text of any note.
+- **Share Notes:** Make notes publicly viewable without authentication. Read only, no write access. Includes a share link.
 - **Authentication:** Protected by simple HTTP Basic Authentication.
 - Rate limiting per IP address
 - CSRF protection for POST requests
