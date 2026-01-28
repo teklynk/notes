@@ -2,8 +2,10 @@
     <form method="post" id="note-form">
         {{ form.csrf_token }}
         <div class="sticky-button">
-            <a href="/"><button class="btn" type="button">Cancel</button></a>
-            <button class="btn" type="submit" form="note-form" formtarget="_self">Save</button>
+            <input type="checkbox" name="shared" id="shared" class="vertical-align-middle" value="y">
+            <label for="shared" class="vertical-align-middle">Share</label>
+            <a href="/"><button class="btn vertical-align-baseline" type="button">Cancel</button></a>
+            <button class="btn vertical-align-baseline" type="submit" form="note-form" formtarget="_self">Save</button>
         </div>
         <div>
             <input placeholder="Name" type="text" spellcheck="false" autocorrect="off" autocapitalize="off" class="note-input mt-6" name="note_name" id="note_name" maxlength="255" required autofocus/>

@@ -2,7 +2,7 @@ import os, sqlite3, uuid
 from flask import Flask, request, render_template, make_response, redirect, url_for, Response, g
 from flask_limiter import Limiter
 from flask_wtf import FlaskForm
-from wtforms import TextAreaField, StringField
+from wtforms import TextAreaField, StringField, BooleanField
 from wtforms.validators import DataRequired
 from dotenv import load_dotenv
 from functools import wraps
@@ -87,6 +87,9 @@ def requires_origin_check(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         allowed_domain = os.getenv('ALLOWED_DOMAIN')
+        if not allowed_domain:
+            return f(*args, **kwargs)
+
         if request.method == 'POST':
             origin = request.headers.get('Origin')
             referer = request.headers.get('Referer')
@@ -94,10 +97,12 @@ def requires_origin_check(f):
             if not origin and not referer:
                 return "Forbidden: Missing origin", 403
             if not ((origin and origin.startswith(allowed_domain)) or (referer and referer.startswith(allowed_domain))):
+                print(f"Origin check failed. Origin: {origin}, Referer: {referer}, Expected: {allowed_domain}")
                 return "Forbidden: Invalid origin", 403
         elif request.method == 'GET':
             origin = request.headers.get('Origin')
             if origin and not origin.startswith(allowed_domain):
+                print(f"Origin check failed. Origin: {origin}, Expected: {allowed_domain}")
                 return "Forbidden: Invalid origin", 403
 
         return f(*args, **kwargs)
@@ -111,9 +116,16 @@ def init_db():
             id TEXT PRIMARY KEY,
             name TEXT NOT NULL,
             content TEXT NOT NULL,
-            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            shared INTEGER NOT NULL DEFAULT 0
         )
     ''')
+    # For backwards compatibility, add 'shared' column if it doesn't exist.
+    try:
+        c.execute('SELECT shared FROM notes LIMIT 1')
+    except sqlite3.OperationalError:
+        c.execute('ALTER TABLE notes ADD COLUMN shared INTEGER NOT NULL DEFAULT 0')
+
     conn.commit()
     conn.close()
 
@@ -124,14 +136,22 @@ def init_db():
 @limiter.limit("60 per minute")
 def list_notes():
     db = get_db()
-    notes = db.execute('SELECT id, name, created_at FROM notes ORDER BY created_at DESC').fetchall()
+    notes = db.execute('SELECT id, name, created_at, shared FROM notes ORDER BY created_at DESC').fetchall()
     return render_template('index.html', notes=notes)
 
 @app.route('/raw/<note_id>')
 def raw_note(note_id):
     db = get_db()
-    note = db.execute('SELECT content FROM notes WHERE id = ?', (note_id,)).fetchone()
+    note = db.execute('SELECT content, shared FROM notes WHERE id = ?', (note_id,)).fetchone()
     if note:
+        if not note['shared']:
+            http_user = os.getenv('HTTP_USER')
+            http_pass = os.getenv('HTTP_PASS')
+            if http_user and http_pass:
+                auth = request.authorization
+                if not auth or not check_auth(auth.username, auth.password):
+                    return authenticate()
+
         try:
             # Decrypt the content
             decrypted_content = fernet.decrypt(note['content']).decode()
@@ -139,10 +159,33 @@ def raw_note(note_id):
             return redirect(url_for('list_notes'))
         raw = render_template('raw.txt', content=decrypted_content)
         response = make_response(raw)
-        response.headers['Content-Type'] = 'text/plain'
+        response.headers['Content-Type'] = 'text/plain; charset=utf-8'
         return response
     else:
         return redirect(url_for('list_notes'))
+
+@app.route('/share/<note_id>')
+@limiter.limit("60 per minute")
+def share_note(note_id):
+    db = get_db()
+    note = db.execute('SELECT name, content, shared FROM notes WHERE id = ?', (note_id,)).fetchone()
+    if note and note['shared']:
+        try:
+            name = note['name']
+            markdown_content = fernet.decrypt(note['content']).decode()
+            extensions = [
+                'pymdownx.superfences',
+                'pymdownx.tasklist',
+                'pymdownx.tilde',
+                'pymdownx.details',
+            ]
+            html_content = markdown.markdown(markdown_content, extensions=extensions)
+        except InvalidToken:
+            return render_template('404.html'), 404
+        return render_template('share.html', name=name, content=html_content, note_id=note_id)
+    else:
+        # Note not found or not shared
+        return render_template('404.html'), 404
 
 @app.route('/create', methods=['GET', 'POST'])
 @requires_auth
@@ -153,10 +196,11 @@ def create():
     if form.validate_on_submit():
         name = form.note_name.data
         content = form.note_content.data
+        shared = form.shared.data
         encrypted_content = fernet.encrypt(content.encode())
-        note_id = str(uuid.uuid4())[:32]
+        note_id = uuid.uuid4().hex
         db = get_db()
-        db.execute('INSERT INTO notes (id, name, content) VALUES (?, ?, ?)', (note_id, name, encrypted_content))
+        db.execute('INSERT INTO notes (id, name, content, shared) VALUES (?, ?, ?, ?)', (note_id, name, encrypted_content, shared))
         db.commit()
         return redirect(url_for('view_note', note_id=note_id))
     return render_template('create.html', form=form)
@@ -167,27 +211,29 @@ def create():
 @limiter.limit("60 per minute")
 def edit(note_id):
     db = get_db()
-    note = db.execute('SELECT name, content FROM notes WHERE id = ?', (note_id,)).fetchone()
+    note = db.execute('SELECT name, content, shared FROM notes WHERE id = ?', (note_id,)).fetchone()
     if not note:
         return redirect(url_for('list_notes'))
     try:
         name = note['name']
         decrypted_content = fernet.decrypt(note['content']).decode()
+        shared = note['shared']
     except InvalidToken:
         return redirect(url_for('list_notes'))
 
-    form = NoteForm(note_name=name, note_content=decrypted_content)
+    form = NoteForm(note_name=name, note_content=decrypted_content, shared=shared)
 
     if form.validate_on_submit():
-        # The decorator handles the POST check, so we can just validate the form
         name = form.note_name.data
         content = form.note_content.data
+        shared = form.shared.data
         encrypted_content = fernet.encrypt(content.encode())
-        db.execute('UPDATE notes SET name = ?, content = ? WHERE id = ?', (name, encrypted_content, note_id))
+        db.execute('UPDATE notes SET name = ?, content = ?, shared = ? WHERE id = ?', (name, encrypted_content, shared, note_id))
         db.commit()
         return redirect(url_for('view_note', note_id=note_id))
 
-    return render_template('edit.html', form=form, name=name, content=decrypted_content, note_id=note_id)
+    # Pass note_id for the cancel button URL
+    return render_template('edit.html', form=form, note_id=note_id)
 
 @app.route('/delete/<note_id>', methods=['POST'])
 @requires_auth
@@ -195,7 +241,7 @@ def edit(note_id):
 @limiter.limit("60 per minute")
 def delete_note(note_id):
     db = get_db()
-    db.execute('DELETE FROM notes WHERE id = ?', (note_id,)).fetchone()
+    db.execute('DELETE FROM notes WHERE id = ?', (note_id,))
     db.commit()
     return redirect(url_for('list_notes'))
 
@@ -203,7 +249,7 @@ def delete_note(note_id):
 @requires_auth
 def view_note(note_id):
     db = get_db()
-    note = db.execute('SELECT name, content FROM notes WHERE id = ?', (note_id,)).fetchone()
+    note = db.execute('SELECT name, content, shared FROM notes WHERE id = ?', (note_id,)).fetchone()
     if note:
         try:
             name = note['name']
@@ -219,13 +265,14 @@ def view_note(note_id):
             html_content = markdown.markdown(markdown_content, extensions=extensions)
         except InvalidToken:
             return redirect(url_for('list_notes'))
-        return render_template('view.html', name=name, content=html_content, note_id=note_id)
+        return render_template('view.html', name=name, content=html_content, note_id=note_id, shared=note['shared'])
     else:
         return redirect(url_for('list_notes'))
 
 class NoteForm(FlaskForm):
     note_name = StringField('Note', validators=[DataRequired()])
     note_content = TextAreaField('Note', validators=[DataRequired()])
+    shared = BooleanField('Share publicly')
 
 if __name__ == '__main__':
     # Create the database if it does not exist

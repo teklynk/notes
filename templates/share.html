@@ -1,0 +1,9 @@
+{% include 'includes/header.html' %}
+    <div class="sticky-button">
+        <a href="/raw/{{ note_id }}"><button class="btn vertical-align-baseline" type="button">Raw</button></a>
+    </div>
+    <div class="note-view">
+        <h1 tabindex="0" class="mt-6">{{ name }}</h1>
+        <div class="note-content mt-5">{{ content|safe }}</div>
+    </div>
+{% include 'includes/footer.html' %}

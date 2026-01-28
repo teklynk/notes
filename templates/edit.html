@@ -2,14 +2,16 @@
     <form method="post" id="note-form">
         {{ form.csrf_token }}
         <div class="sticky-button">
-            <a href="/{{ note_id }}"><button class="btn cancel" type="button">Cancel</button></a>
-            <button class="btn" type="submit" form="note-form" formtarget="_self">Save</button>
+            <input type="checkbox" name="shared" id="shared" class="vertical-align-middle" value="y" {% if form.shared.data %}checked{% endif %}>
+            <label for="shared" class="vertical-align-middle">Share</label>
+            <a href="{{ url_for('view_note', note_id=note_id) }}"><button class="btn vertical-align-baseline" type="button">Cancel</button></a>
+            <button class="btn vertical-align-baseline" type="submit" form="note-form" formtarget="_self">Save</button>
         </div>
         <div>
-            <input placeholder="Name" type="text" spellcheck="false" autocorrect="off" autocapitalize="off" class="note-input mt-6" name="note_name" id="note_name" maxlength="255" value="{{ name }}" required autofocus/>
-            <textarea placeholder="Content" spellcheck="false" autocorrect="off" autocapitalize="off"
+            <input placeholder="Name" type="text" spellcheck="false" autocorrect="off" autocapitalize="off" class="note-input mt-6" name="note_name" id="note_name" maxlength="255" required autofocus value="{{ form.note_name.data }}"/>
+            <textarea placeholder="Content" spellcheck="false" autocorrect="off" autocapitalize="off" 
                 class="note-textarea mt-5" name="note_content" id="note_content" rows="10" cols="80"
-                tabindex="0" required>{{ content }}</textarea>
+                tabindex="0" required>{{ form.note_content.data }}</textarea>
         </div>
     </form>
 {% include 'includes/footer.html' %}

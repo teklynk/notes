@@ -1,11 +1,12 @@
 {% include 'includes/header.html' %}
     <div class="sticky-button">
-        <a href="/"><button class="btn" type="button">All Notes</button></a>
-        <a href="/raw/{{ note_id }}"><button class="btn" type="button">Raw</button></a>
-        <a href="/create"><button class="btn" type="button">Create</button></a>
-        <a href="/edit/{{ note_id }}"><button class="btn" type="button">Edit</button></a>
-        <form id="delete-form-{{ note_id }}" class="inline-block" action="{{ url_for('delete_note', note_id=note_id) }}" method="post" onsubmit="return confirm('Are you sure you want to delete this note?');">
-            <button class="btn delete" type="submit" form="delete-form-{{ note_id }}">Delete</button>
+        {% if shared %}<a href="/share/{{ note_id }}" class="inline-block vertical-align-baseline" id="shared-note-{{ note_id }}" title="Share link" target="_blank" rel="noopener"><button class="btn transparent p-0">&#128279;</button></a>{% endif %}
+        <a href="/"><button class="btn vertical-align-baseline" type="button">All Notes</button></a>
+        <a href="/raw/{{ note_id }}"><button class="btn vertical-align-baseline" type="button">Raw</button></a>
+        <a href="/create"><button class="btn vertical-align-baseline" type="button">Create</button></a>
+        <a href="/edit/{{ note_id }}"><button class="btn vertical-align-baseline" type="button">Edit</button></a>
+        <form id="delete-form-{{ note_id }}" class="inline-block vertical-align-baseline" action="{{ url_for('delete_note', note_id=note_id) }}" method="post" onsubmit="return confirm('Are you sure you want to delete this note?');">
+            <button class="btn delete vertical-align-baseline" type="submit" form="delete-form-{{ note_id }}">Delete</button>
         </form>
     </div>
     <div class="note-view">
