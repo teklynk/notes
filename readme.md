@@ -17,6 +17,12 @@ A simple, self-hosted, encrypted notes application built with Flask.
 - **Easy Setup:** Automatically generates an encryption key on first run.
 - **Proxy Friendly:** Designed to work behind a reverse proxy and correctly identify client IPs.
 
+## Screenshots
+
+![All Notes View](https://github.com/teklynk/notes/blob/main/Screenshot%20from%202026-01-29%2018-02-51.jpg?raw=true)
+
+![Note View](https://github.com/teklynk/notes/blob/main/Screenshot%20from%202026-01-29%2018-03-25.jpg?raw=true)
+
 ## Getting Started
 
 ### Local Setup
