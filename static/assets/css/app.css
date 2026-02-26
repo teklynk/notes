@@ -221,10 +221,9 @@ td.hljs-ln-numbers {
   padding-right: 20px !important;
 }
 
-code.hljs {
-  padding: 0 !important;
-  word-wrap: break-word;
-  text-wrap: auto;
+code.hljs, pre code.hljs {
+    padding: 0 !important;
+    overflow: visible !important;
 }
 
 .hljs-copy-wrapper {
