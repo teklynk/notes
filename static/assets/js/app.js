@@ -11,22 +11,15 @@ document.addEventListener('DOMContentLoaded', () => {
         autoGrowTextarea(textarea);
     }
 
-    const toggle = document.getElementById('theme-toggle');
-    const body = document.body;
-
-    if (!localStorage.getItem('theme')) {
-        localStorage.setItem('theme', 'dark-mode');
+    const searchInput = document.getElementById('search-input');
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const notes = document.querySelectorAll('.note-list li');
+            notes.forEach(note => {
+                const text = note.textContent.toLowerCase();
+                note.style.display = text.includes(searchTerm) ? '' : 'none';
+            });
+        });
     }
-
-    body.classList.add(localStorage.getItem('theme'));
-
-    toggle.addEventListener('click', () => {
-        if (body.classList.contains('dark-mode')) {
-            body.classList.replace('dark-mode', 'light-mode');
-            localStorage.setItem('theme', 'light-mode');
-        } else {
-            body.classList.replace('light-mode', 'dark-mode');
-            localStorage.setItem('theme', 'dark-mode');
-        }
-    });
 });

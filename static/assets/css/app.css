@@ -1,37 +1,17 @@
 body {
+  background: #1f232b;
+  color: #839496;
   padding: 10px;
   margin: 0px;
   font-family: monospace;
   font-size: 1rem;
 }
 
-body.dark-mode {
-  background: #1f232b;
-  color: #839496;
-}
-
-body.light-mode {
-  background: #eee;
-  color: #000;
-}
-
 pre {
   position: relative;
   overflow-x: auto;
-  max-width: 100%;
+  max-width: 95vw;
   padding: 10px;
-}
-
-body.dark-mode pre {
-  background: #282c34;
-}
-
-body.light-mode pre {
-  background: #f6f8fa;
-}
-
-body.light-mode .note-textarea, body.light-mode .hljs {
-  color: #000;
 }
 
 footer {
@@ -70,7 +50,7 @@ footer {
   font-size: 1em;
   background: transparent;
   border: 0px;
-  color: #eee;
+  color: #839496;
   padding: 0px;
   width: 100%;
   height: 100%;
@@ -228,17 +208,8 @@ button.theme-btn {
   z-index: 1000;
 }
 
-.hljs {
-  background: transparent !important;
-}
-
 td.hljs-ln-numbers {
   padding-right: 20px !important;
-}
-
-code.hljs, pre code.hljs {
-    padding: 0 !important;
-    overflow: visible !important;
 }
 
 .hljs-copy-wrapper {

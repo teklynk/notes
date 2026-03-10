@@ -4,6 +4,9 @@
     </div>
     <div class="note-view">
         <h1 class="mt-6">All Notes</h1>
+        <div class="border-bottom">
+        <input type="text" id="search-input" class="note-input" placeholder="Search notes...">
+        </div>
         <ul class="note-list mt-5">
             {% for note in notes %}
                 <li>
