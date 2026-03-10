@@ -62,9 +62,12 @@ div.note-view {
   min-height: 75vh;
 }
 
-a, a:link, a:hover, a:focus {
-    text-decoration: underline !important;
-    color: #a0a1ff !important;
+a,
+a:link,
+a:hover,
+a:focus {
+  text-decoration: underline !important;
+  color: #a0a1ff !important;
 }
 
 ul.note-list {
@@ -107,7 +110,22 @@ ul.note-list {
 }
 
 .border-bottom {
-  border-bottom: solid 1px;
+  border-bottom: solid 1px #343a40;
+}
+
+ol,
+ul {
+  padding-left: 2rem;
+}
+
+li p {
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+
+ul.task-list {
+  list-style-type: none;
+  padding-inline-start: 1em;
 }
 
 .muted {
@@ -216,7 +234,7 @@ button.theme-btn {
 }
 
 .hljs {
-    background: #292938 !important;
+  background: #292938 !important;
 }
 
 .transparent {
@@ -226,36 +244,32 @@ button.theme-btn {
 
 /** Markdown styling **/
 input[type="checkbox"] {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 20px;
-    height: 20px;
-    border: 1px solid #ddd9e8;
-    background: transparent;
-    position: relative;
-    vertical-align: middle;
-    margin-right: 5px;
-    cursor: default;
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #ddd9e8;
+  background: transparent;
+  position: relative;
+  vertical-align: middle;
+  margin-right: 5px;
+  cursor: default;
 }
 
 input[type="checkbox"]:checked::after {
-    /* Use a single backslash for the unicode character */
-    content: "\2714";
-    /* A green from the syntax highlight theme */
-    color: #98c379;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 18px;
-    pointer-events: none;
+  /* Use a single backslash for the unicode character */
+  content: "\2714";
+  /* A green from the syntax highlight theme */
+  color: #98c379;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 18px;
+  pointer-events: none;
 }
 
 @media screen and (max-width: 768px) {
-  div.note-view {
-    margin-top: 100px;
-  }
-
   .sticky-button .btn {
     font-size: 1.0rem;
     padding: 4px 8px 4px 8px;
