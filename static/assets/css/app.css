@@ -10,7 +10,6 @@ body {
 pre {
   position: relative;
   overflow-x: auto;
-  max-width: 95vw;
   padding: 10px;
 }
 
@@ -58,7 +57,7 @@ footer {
 }
 
 div.note-view {
-  margin-top: 50px;
+  margin-top: 7vh;
   min-height: 75vh;
 }
 
@@ -235,6 +234,10 @@ button.theme-btn {
 
 .hljs {
   background: #292938 !important;
+}
+
+td.hljs-ln-numbers {
+  padding-right: 20px !important;
 }
 
 .transparent {
