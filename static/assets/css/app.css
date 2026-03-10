@@ -11,8 +11,23 @@ body.dark-mode {
 }
 
 body.light-mode {
-  background: #fff;
+  background: #eee;
   color: #000;
+}
+
+pre {
+  position: relative;
+  overflow-x: auto;
+  max-width: 100%;
+  padding: 10px;
+}
+
+body.dark-mode pre {
+  background: #282c34;
+}
+
+body.light-mode pre {
+  background: #f6f8fa;
 }
 
 body.light-mode .note-textarea, body.light-mode .hljs {
@@ -189,8 +204,8 @@ ul.note-list {
   margin-bottom: 10px;
   font-size: 1rem;
   border: none;
-  background-color: #474747;
-  color: #fff;
+  background-color: #282c34;
+  color: #eee;
   cursor: pointer;
 }
 
