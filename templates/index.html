@@ -5,7 +5,7 @@
     <div class="note-view">
         <h1 class="mt-6">All Notes</h1>
         <div class="border-bottom">
-        <input type="text" id="search-input" class="note-input" placeholder="Search notes...">
+            <input type="text" id="search-input" class="note-input" placeholder="Search notes...">
         </div>
         <ul class="note-list mt-5">
             {% for note in notes %}
@@ -15,7 +15,7 @@
                     </form>
                     {% if note.shared %}<a href="{{ url_for('share_note', note_id=note.id) }}" class="inline-block vertical-align-baseline" id="shared-note-{{ note[0] }}" title="Share link" target="_blank" rel="noopener"><button class="btn transparent p-0">&#128279;</button></a>{% endif %}
                     <a href="{{ url_for('view_note', note_id=note.id) }}" class="truncated vertical-align-middle">{{ note.name }}</a>
-                    <div class="border-bottom"><small class="mb-2 inline-block vertical-align-baseline">{{ note.created_at }}</small></div>
+                    <div class="border-bottom"><small class="mb-2 inline-block vertical-align-baseline muted">{{ note.created_at }}</small></div>
                 </li>
             {% else %}
                 <li>No notes found.</li>

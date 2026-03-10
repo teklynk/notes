@@ -1,9 +1,9 @@
 body {
-  background: #1f232b;
-  color: #839496;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Noto Sans, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  background: #181821;
+  color: #ddd9e8;
   padding: 10px;
   margin: 0px;
-  font-family: monospace;
   font-size: 1rem;
 }
 
@@ -17,40 +17,38 @@ pre {
 footer {
   a {
     &:link {
-      color: #839496;
+      color: #ddd9e8;
       text-decoration: none;
     }
 
     &:visited {
-      color: #839496;
+      color: #ddd9e8;
       text-decoration: none;
     }
 
     &:hover {
-      color: #839496;
+      color: #ddd9e8;
       text-decoration: underline;
     }
   }
 }
 
 .note-input {
-  font-family: monospace;
   font-size: 2em;
   font-weight: bold;
   background: transparent;
   border: 0px;
-  color: #839496;
+  color: #ddd9e8;
   padding: 0px;
   width: 100%;
   outline: none;
 }
 
 .note-textarea {
-  font-family: monospace;
   font-size: 1em;
   background: transparent;
   border: 0px;
-  color: #839496;
+  color: #ddd9e8;
   padding: 0px;
   width: 100%;
   height: 100%;
@@ -62,6 +60,11 @@ footer {
 div.note-view {
   margin-top: 50px;
   min-height: 75vh;
+}
+
+a, a:link, a:hover, a:focus {
+    text-decoration: underline !important;
+    color: #a0a1ff !important;
 }
 
 ul.note-list {
@@ -105,6 +108,10 @@ ul.note-list {
 
 .border-bottom {
   border-bottom: solid 1px;
+}
+
+.muted {
+  color: #ddd9e845;
 }
 
 .mt-0 {
@@ -208,12 +215,8 @@ button.theme-btn {
   z-index: 1000;
 }
 
-td.hljs-ln-numbers {
-  padding-right: 20px !important;
-}
-
-.hljs-copy-wrapper {
-  margin-right: 8px !important;
+.hljs {
+    background: #292938 !important;
 }
 
 .transparent {
@@ -227,7 +230,7 @@ input[type="checkbox"] {
     appearance: none;
     width: 20px;
     height: 20px;
-    border: 1px solid #839496;
+    border: 1px solid #ddd9e8;
     background: transparent;
     position: relative;
     vertical-align: middle;
